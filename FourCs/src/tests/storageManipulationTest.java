@@ -1,14 +1,8 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import model.ImageFoldierListener;
 import model.LocalStorageManipulation;
 
@@ -46,7 +40,7 @@ class storageManipulationTest {
 			e1.printStackTrace();
 		}
 		try {
-			localStorageManipulation.InsertNewImagesFolderPath("C:\\Users\\vahab\\Desktop\\android2final");
+			localStorageManipulation.InsertNewImagesFolderPath("C:\\Users\\ben's home\\Desktop\\FourCsTempImageFolder");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,7 +58,7 @@ class storageManipulationTest {
 	@Test
 	void FoldierEvents()
 	{
-		String path="C:\\Users\\vahab\\Desktop\\testFoldier\\";
+		String path="C:\\Users\\ben's home\\Desktop\\FourCsTempImageFolder";
 		LocalStorageManipulation localStorageManipulation = null;
 		
 		try {

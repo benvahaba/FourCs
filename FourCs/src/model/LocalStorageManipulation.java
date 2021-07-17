@@ -9,7 +9,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class LocalStorageManipulation {
+
+
+public class LocalStorageManipulation 
+{
+	
+	
 	private final String localFileName = "ImagesFoldierPath.txt";
 	private File localFile;
 
@@ -85,9 +90,23 @@ public class LocalStorageManipulation {
 		Boolean pathSavedBoolean=true;
 		FileWriter fileWriter = null;
 		Path imagesDirPath;
+
+			
 		
 		try {
-			 imagesDirPath =Paths.get(i_path);
+			if(!i_path.endsWith("\\"))
+			{
+			
+				imagesDirPath =Paths.get(i_path+"\\");
+				
+			}
+			else {
+				 imagesDirPath =Paths.get(i_path);
+				
+			}
+			
+			
+			
 			
 			
 		} catch (InvalidPathException e) {
