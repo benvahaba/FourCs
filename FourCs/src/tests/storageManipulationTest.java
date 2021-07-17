@@ -60,5 +60,11 @@ class storageManipulationTest {
 		
 		
 	}
+	@Test
+	void FoldierEvents()
+	{
+		
+		
+	}
 
 }
