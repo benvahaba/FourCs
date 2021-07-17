@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.ImageFoldierListener;
 import model.LocalStorageManipulation;
 
 class storageManipulationTest {
@@ -63,6 +64,24 @@ class storageManipulationTest {
 	@Test
 	void FoldierEvents()
 	{
+		String path="C:\\Users\\vahab\\Desktop\\testFoldier\\";
+		LocalStorageManipulation localStorageManipulation = null;
+		
+		try {
+			localStorageManipulation = new LocalStorageManipulation();
+			localStorageManipulation.InsertNewImagesFolderPath(path);
+			
+			ImageFoldierListener imageFoldierListener = new ImageFoldierListener(path);
+			imageFoldierListener.run();
+		
+			
+		
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		
 	}

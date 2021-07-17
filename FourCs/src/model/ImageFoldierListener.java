@@ -12,51 +12,52 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ImageFoldierListener implements Runnable
-{
+public class ImageFoldierListener implements Runnable {
 	private final String PATH;
-	
-	public ImageFoldierListener(String i_Path)
-	{
+	private boolean threadRunning = false;
+
+	public ImageFoldierListener(String i_Path) {
 		PATH = i_Path;
-		
+
+	}
+
+	public void StopThread() 
+	{
+		threadRunning=false;
+
 	}
 
 	@Override
 	public void run() {
-		try(WatchService service = FileSystems.getDefault().newWatchService())
-		{
+		threadRunning = true;
+		try (WatchService service = FileSystems.getDefault().newWatchService()) {
 			Map<WatchKey, Path> keyMap = new HashMap<>();
 			Path path = Paths.get(PATH);
-			keyMap.put(path.register(service, 
-					StandardWatchEventKinds.ENTRY_CREATE), path);
-			
+			keyMap.put(path.register(service, StandardWatchEventKinds.ENTRY_CREATE), path);
+
 			WatchKey watchKey;
-			
-			do {
-				watchKey = service.take();
-				Path eventDir = keyMap.get(watchKey);
-				
-				for(WatchEvent<?> event : watchKey.pollEvents())
-				{
-					
-					WatchEvent.Kind<?> kind = event.kind();
-					Path eventPath = (Path)event.context();
-					System.out.println(eventDir+": "+ kind+": "+eventPath);
-				}
-				
-				
-				
-			} while (watchKey.reset());
-			
-			
+
+			while (threadRunning) {
+
+				do {
+					watchKey = service.take();
+					Path eventDir = keyMap.get(watchKey);
+
+					for (WatchEvent<?> event : watchKey.pollEvents()) {
+
+						WatchEvent.Kind<?> kind = event.kind();
+						Path eventPath = (Path) event.context();
+						System.out.println(eventDir + ": " + kind + ": " + eventPath);
+					}
+
+				} while (watchKey.reset());
+			}
+
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
 
 }
