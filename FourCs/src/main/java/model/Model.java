@@ -1,24 +1,84 @@
 package main.java.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Path;
+
+import main.java.model.utils.ImageFoldierListener;
+import main.java.model.utils.ImageListener;
+import main.java.model.utils.ImageManipulation;
+import main.java.model.utils.LocalStorageManipulation;
 
 
-public class Model 
+public class Model implements ImageListener
 {
-	PropertyChangeSupport changes;
+	private ModelListener controllerListener;
+	private LocalStorageManipulation storageManipulation;
+	private ImageFoldierListener imageFoldierListener;
+
 	
-	public Model() {
-		changes= new PropertyChangeSupport(this);
-		
-		// TODO Auto-generated constructor stub
-	}
-	
-	public void AddPropertyChangeListener(PropertyChangeListener propertyChangeListener)
+	public Model(ModelListener modelListener) 
 	{
-		changes.addPropertyChangeListener(propertyChangeListener);
+		controllerListener = modelListener;
+		try {
+			storageManipulation= new LocalStorageManipulation();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(storageManipulation.checkIfImagesLocalPathExists())
+		{
+			try {
+				imageFoldierListener = new ImageFoldierListener(this ,storageManipulation.getImagesFolderPath());
+				imageFoldierListener.run();
+			} catch (FileNotFoundException e) {
+				// TODO notify controller "illegal path"
+				e.printStackTrace();
+			}
+			
+			
+		}
+		else {
+			//TODO notify controller
+		}
+		
+		
+		
 		
 	}
+	public void ChangeImageDirPath(String i_Path)
+	{
+		try {
+			storageManipulation.InsertNewImagesFolderPath(i_Path);
+			imageFoldierListener.InsertNewImageDirPathAndRun(i_Path);	
+		} catch (IOException e) {
+			// TODO notify controller that the path is illegal
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	@Override
+	public void NewImageInserted(Path ImagePath) {
+		try {
+			BufferedImage image = ImageManipulation.getImage(ImagePath);
+			
+			
+			
+			
+			
+			
+			
+		} catch (IOException e) {
+			// TODO tell controller that the image.name is not supported
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	
 	

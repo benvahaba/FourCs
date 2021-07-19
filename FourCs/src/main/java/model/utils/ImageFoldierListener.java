@@ -1,4 +1,4 @@
-package main.java.model;
+package main.java.model.utils;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -11,13 +11,24 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ImageFoldierListener implements Runnable {
-	private final String PATH;
+public class ImageFoldierListener extends Thread {
+	private String PATH;
 	private boolean threadRunning = false;
+	private ImageListener imageListener;
 
-	public ImageFoldierListener(String i_Path) {
+	public ImageFoldierListener(ImageListener i_imageListener,String i_Path) {
 		PATH = i_Path;
+		imageListener = i_imageListener;
+		setDaemon(true);
+	
 
+	}
+	public void InsertNewImageDirPathAndRun(String i_path)
+	{
+		threadRunning=false;
+		while(this.threadRunning) {}
+		PATH= i_path;
+		run();
 	}
 
 	public void StopThread() 
@@ -47,6 +58,9 @@ public class ImageFoldierListener implements Runnable {
 						WatchEvent.Kind<?> kind = event.kind();
 						Path eventPath = (Path) event.context();
 						System.out.println(eventDir + ": " + kind + ": " + eventPath);
+						
+						
+						imageListener.NewImageInserted(eventDir.resolve(eventPath));
 					}
 
 				} while (watchKey.reset());

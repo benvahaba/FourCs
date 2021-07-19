@@ -1,4 +1,4 @@
-package main.java.model;
+package main.java.model.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,7 +72,8 @@ public class LocalStorageManipulation
 
 	}
 
-	public Boolean checkIfImagesLocalPathExists() {
+	public Boolean checkIfImagesLocalPathExists()
+	{		
 		Boolean PathExists = false;
 		
 		if(!imagesFolderPath.isEmpty())

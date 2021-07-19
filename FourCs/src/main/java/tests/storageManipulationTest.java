@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.ImageFoldierListener;
-import main.java.model.LocalStorageManipulation;
+import main.java.controller.Controller;
+import main.java.model.Model;
+import main.java.model.utils.ImageFoldierListener;
+import main.java.model.utils.LocalStorageManipulation;
 
 class storageManipulationTest {
 	
@@ -65,8 +67,8 @@ class storageManipulationTest {
 		try {
 			localStorageManipulation = new LocalStorageManipulation();
 			localStorageManipulation.InsertNewImagesFolderPath(path);
-			
-			ImageFoldierListener imageFoldierListener = new ImageFoldierListener(path);
+			Controller controller = new Controller();
+			ImageFoldierListener imageFoldierListener = new ImageFoldierListener(new Model(controller),path);
 			imageFoldierListener.run();
 		
 			
@@ -75,10 +77,13 @@ class storageManipulationTest {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
-		
+		}		
+	}
+	@Test
+	void BiggerTestWithEmptyController()
+	{
+		Controller controller = new Controller();
+		Model model = new Model(controller);
 	}
 
 }
