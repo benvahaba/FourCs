@@ -84,6 +84,10 @@ class storageManipulationTest {
 	{
 		Controller controller = new Controller();
 		Model model = new Model(controller);
+		while(true)
+		{
+			
+		}
 	}
 
 }

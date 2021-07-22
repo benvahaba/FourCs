@@ -57,8 +57,9 @@ public class ImageFoldierListener extends Thread {
 
 						WatchEvent.Kind<?> kind = event.kind();
 						Path eventPath = (Path) event.context();
-						System.out.println(eventDir + ": " + kind + ": " + eventPath);
 						
+					
+
 						
 						imageListener.NewImageInserted(eventDir.resolve(eventPath));
 					}
