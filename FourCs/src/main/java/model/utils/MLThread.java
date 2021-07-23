@@ -2,32 +2,32 @@ package main.java.model.utils;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import net.sf.javaml.clustering.Clusterer;
+import net.sf.javaml.clustering.KMeans;
 import net.sf.javaml.core.Dataset;
 import net.sf.javaml.core.DefaultDataset;
 import net.sf.javaml.core.DenseInstance;
 import net.sf.javaml.core.Instance;
+import net.sf.javaml.tools.data.FileHandler;
 import net.sf.javaml.tools.weka.WekaClusterer;
 import weka.clusterers.XMeans;
+import weka.core.parser.java_cup.internal_error;
 
 public class MLThread extends Thread {
 	private BufferedImage image;
-	private Dataset data;
-	private Dataset[] clusters;
 	private boolean work = true;
 	private MLThreadListener listener;
-	//white avarage 157.5   155.625   157.375 
+	// white avarage 157.5 155.625 157.375
 
 	///// temps. delete later
 
-
-	public static int numOfPictures=0;
-	public long lredAv = 0, lgreenAv = 0, lblueAv = 0;
-
+	static int imageIterator = 0;
 	//// temps. delete later
 
-	private final int maxCentroids = 4, iterations = 100;
+	private final int maxCentroidsInitial = 4, maxCentroidsAfterFiltered = 2, iterations = 100;
 
 	/**
 	 * @param i_image
@@ -43,19 +43,26 @@ public class MLThread extends Thread {
 	@Override
 	public void run() {
 		while (work) {
-			creatingDataSet();
-			applyKmeans();
+
+			try {
+				Dataset filteredDataset = calculateAveragesAndRemoveRedundant(
+						applyKmeans(creatingDataSet(), maxCentroidsInitial));
+
+				applySecondKmeans(filteredDataset);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			work = false;
-			int change=0;
-			WhiteAverage(clusters, change);
-			System.out.println(lredAv+","+lgreenAv+","+lblueAv );
 
 		}
 
 	}
 
-	private void creatingDataSet() {
-		data = new DefaultDataset();
+	private Dataset creatingDataSet() {
+		Dataset data = new DefaultDataset();
 
 		for (int width = 0; width < image.getWidth(); width++) {
 			for (int height = 0; height < image.getHeight(); height++) {
@@ -67,46 +74,85 @@ public class MLThread extends Thread {
 				data.add(instance);
 			}
 		}
+
+		if (data.isEmpty()) {
+			System.out.println(" data empty");
+		}
+		return data;
 	}
 
-	private void applyKmeans() {
-		XMeans KMeans = new XMeans();
-		try {
-			KMeans.setMaxIterations(iterations);
-			KMeans.setMinNumClusters(maxCentroids);
-			KMeans.setMaxNumClusters(maxCentroids);
+	private Dataset[] applyKmeans(Dataset dataset, int i_centroids) throws Exception {
+//		XMeans KMeans = new XMeans();
+//		Dataset[] clusters = null;
+//			try {
+//				KMeans.setMaxIterations(iterations);
+//
+//			KMeans.setMinNumClusters(i_centroids);
+//			KMeans.setMaxNumClusters(i_centroids);
+//
+//			Clusterer jmlxm = new WekaClusterer(KMeans);
+//			 clusters = jmlxm.cluster(dataset);
+//			
+//			} catch (Exception e) {
+//				throw e;
+//				
+//			}
+//
+//			return clusters;
+//			
+//		
+		/* Load a dataset */
+		Clusterer km = new KMeans(i_centroids, iterations);
 
-			Clusterer jmlxm = new WekaClusterer(KMeans);
-			clusters = jmlxm.cluster(data);
+		/*
+		 * Cluster the data, it will be returned as an array of data sets, with each
+		 * dataset representing a cluster.
+		 */
+		Dataset[] clusters = km.cluster(dataset);
 
-			listener.KmeansFinished(clusters);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return clusters;
 
 	}
 
 	////// tests
-	private void WhiteAverage(Dataset[] i_Clusters, int iter) {
-		long lred = 0, lgreen = 0, lblue = 0;
-		for (Instance dataset : i_Clusters[iter]) {
+	private Dataset calculateAveragesAndRemoveRedundant(Dataset[] i_Clusters) {
+
+		for (Dataset dataset : i_Clusters) {
+			Color averageColor = averageCalculation(dataset);
+
+			if (inColorRange(averageColor))
+				return dataset;
+
+		}
+		System.out.println("bad averages ");
+		for (Dataset dataset : i_Clusters) {
+			Color averageColor = averageCalculation(dataset);
+			System.out.println(averageColor.toString());
+
+		}
+		return null;
+
+	}
+
+	private Color averageCalculation(Dataset dataset) {
+
+		float red = 0, green = 0, blue = 0;
+		for (Instance instance : dataset) {
 			int rgbIter = 0;
-			for (double color : dataset) {
+			for (double color : instance) {
 				switch (rgbIter) {
 				case 0: {
-					lred = lred + (long) color;
+					red = red + (float) color;
 
 					break;
 				}
 				case 1: {
-					lgreen = lgreen + (long) color;
+					green = green + (float) color;
 
 					break;
 				}
 				case 2: {
-					lblue = lblue + (long) color;
+					blue = blue + (float) color;
 					break;
 				}
 
@@ -115,13 +161,64 @@ public class MLThread extends Thread {
 
 			}
 		}
-		lredAv=lredAv+lred/i_Clusters[iter].size();
-		lgreenAv =lgreenAv+lred/i_Clusters[iter].size();
-		lblueAv = lblueAv+lblue/i_Clusters[iter].size();
 
+		return new Color((int) (red / dataset.size()), (int) (green / dataset.size()), (int) (blue / dataset.size()));
 	}
 
-	////// tests end
+	private void applySecondKmeans(Dataset datasets) throws Exception {
+		synchronized (this) {
+			Dataset[] clusters = applyKmeans(datasets, maxCentroidsAfterFiltered);
+
+			Color color1 = averageCalculation(clusters[0]), color2 = averageCalculation(clusters[1]);
+
+			boolean color1InRange=inColorRange(color1),color2InRange=inColorRange(color2);
+			
+			System.out.println(color1+ " "+clusters[0].size()+" "+color2+ " "+clusters[1].size());
+			
+			if(color1InRange &&color2InRange)
+			{
+				if(color1.getRed()+color1.getGreen()+color1.getBlue()>color2.getRed()+color2.getGreen()+color2.getBlue())
+				{
+					
+					System.out.println(color2.toString()+ "cnflct");
+				}
+				else {
+					System.out.println(color1.toString()+ "cnflct");
+				}
+				
+			}
+			else if (!color1InRange &&!color2InRange)
+			{
+				throw new Exception("after seonds kmeans. both colors NOT in range");
+				
+			}
+			
+			else if (inColorRange(color1)) {
+				// return color 1
+				System.out.println(color1.toString());
+			} else {
+				System.out.println(color2.toString());
+			}
+
+		}
+
+	}
+	
+	private boolean inColorRange (Color i_color) {
+		boolean colorInRange=false;
+		
+		if (i_color.getRed() < ColorsSpecs.GREEN_EMERALD_MAX.getRed()
+				&& i_color.getRed() > ColorsSpecs.GREEN_EMERALD_MIN.getRed()
+				&& i_color.getGreen() < ColorsSpecs.GREEN_EMERALD_MAX.getGreen()
+				&& i_color.getGreen() > ColorsSpecs.GREEN_EMERALD_MIN.getGreen()
+				&& i_color.getBlue() < ColorsSpecs.GREEN_EMERALD_MAX.getBlue()
+				&& i_color.getBlue() > ColorsSpecs.GREEN_EMERALD_MIN.getBlue())
+			colorInRange=true;
+		
+		
+		return colorInRange;
+		
+	}
 
 	public void Stop() {
 		work = false;

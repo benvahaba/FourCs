@@ -1,6 +1,5 @@
 package main.java.model;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,8 +11,6 @@ import main.java.model.utils.LocalStorageManipulation;
 import main.java.model.utils.MLThread;
 import main.java.model.utils.MLThreadListener;
 import net.sf.javaml.core.Dataset;
-import net.sf.javaml.core.Instance;
-import weka.core.parser.java_cup.internal_error;
 
 
 
@@ -27,7 +24,7 @@ public class Model implements ImageListener, MLThreadListener {
 	
 	
 	//temps
-	private static int picCounter = 0;
+
 	
 	//temps end
 
@@ -71,12 +68,10 @@ public class Model implements ImageListener, MLThreadListener {
 	@Override
 	public void NewImageInserted(Path ImagePath) {
 		try {
-			synchronized (this) {
 				BufferedImage image = ImageManipulation.getImage(ImagePath);
 				MLThread ml = new MLThread(image, this);
 				ml.start();
 				
-			}
 
 
 		} catch (IOException e) {
@@ -89,9 +84,7 @@ public class Model implements ImageListener, MLThreadListener {
 	@Override
 	public void KmeansFinished(Dataset[] i_Clusters) 
 	{
-		synchronized (this) {
-			picCounter++;	
-		}
+
 		
 		
 	
