@@ -167,39 +167,44 @@ public class MLThread extends Thread {
 
 	private void applySecondKmeans(Dataset datasets) throws Exception {
 		synchronized (this) {
-			Dataset[] clusters = applyKmeans(datasets, maxCentroidsAfterFiltered);
-
-			Color color1 = averageCalculation(clusters[0]), color2 = averageCalculation(clusters[1]);
-
-			boolean color1InRange=inColorRange(color1),color2InRange=inColorRange(color2);
 			
-			System.out.println(color1+ " "+clusters[0].size()+" "+color2+ " "+clusters[1].size());
 			
-			if(color1InRange &&color2InRange)
-			{
-				if(color1.getRed()+color1.getGreen()+color1.getBlue()>color2.getRed()+color2.getGreen()+color2.getBlue())
-				{
-					
-					System.out.println(color2.toString()+ "cnflct");
-				}
-				else {
-					System.out.println(color1.toString()+ "cnflct");
-				}
-				
-			}
-			else if (!color1InRange &&!color2InRange)
-			{
-				throw new Exception("after seonds kmeans. both colors NOT in range");
-				
-			}
+			System.out.println(" before second kmeans "+averageCalculation(datasets).toString());
 			
-			else if (inColorRange(color1)) {
-				// return color 1
-				System.out.println(color1.toString());
-			} else {
-				System.out.println(color2.toString());
-			}
-
+			
+//			Dataset[] clusters = applyKmeans(datasets, maxCentroidsAfterFiltered);
+//
+//			Color color1 = averageCalculation(clusters[0]), color2 = averageCalculation(clusters[1]);
+//
+//			boolean color1InRange=inColorRange(color1),color2InRange=inColorRange(color2);
+//			
+//			System.out.println(color1+ " "+clusters[0].size()+" "+color2+ " "+clusters[1].size());
+//			
+//			if(color1InRange &&color2InRange)
+//			{
+//				if(color1.getRed()+color1.getGreen()+color1.getBlue()>color2.getRed()+color2.getGreen()+color2.getBlue())
+//				{
+//					
+//					System.out.println(color2.toString()+ "cnflct");
+//				}
+//				else {
+//					System.out.println(color1.toString()+ "cnflct");
+//				}
+//				
+//			}
+//			else if (!color1InRange &&!color2InRange)
+//			{
+//				throw new Exception("after seonds kmeans. both colors NOT in range");
+//				
+//			}
+//			
+//			else if (inColorRange(color1)) {
+//				// return color 1
+//				System.out.println(color1.toString());
+//			} else {
+//				System.out.println(color2.toString());
+//			}
+//
 		}
 
 	}
