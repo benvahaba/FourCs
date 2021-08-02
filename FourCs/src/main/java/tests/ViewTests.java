@@ -13,8 +13,10 @@ public class ViewTests
 	public void viewtest()
 	{
 		
-		View view = new View();
-		view.main(null);
+		
+		View.main(null);
+		while(true);
+	
 		
 		
 		
