@@ -23,12 +23,18 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import java.awt.Rectangle;
+import java.awt.Dimension;
 
 public class View implements SettingsListener{
 
 	private JFrame frmFourcs;
 	JPanel innerMainPanel;
 	private static View thisView;
+	private JLabel settingJL;
+	private final Color PressedLeftJLColor = new Color(0, 117, 64);
+	private final Color leftJPColor = new Color(1,58,32);
 
 	/**
 	 * Launch the application.
@@ -78,23 +84,84 @@ public class View implements SettingsListener{
 		JPanel left_options_Panel = new JPanel();
 		left_options_Panel.setToolTipText("");
 		left_options_Panel.setBounds(0, 0, 189, 740);
-		left_options_Panel.setBackground(new Color(1,58,32));
+		left_options_Panel.setBackground(leftJPColor);
 		mainPanel.add(left_options_Panel);
 
 
 		JPanel settingsPannel = new JPanel();
+		settingsPannel.setPreferredSize(new Dimension(189, 740));
+		settingsPannel.setBounds(new Rectangle(0, 0, 189, 0));
+		settingsPannel.setAutoscrolls(true);
 		settingsPannel.setBorder(new EmptyBorder(25, 0, 0, 0));
 		settingsPannel.setBounds(10, 38, 160, 240);
 		settingsPannel.setBackground(new Color(0,0,0,0));
 		left_options_Panel.add(settingsPannel);
 
-		JLabel settingJL = new JLabel("Settings");
+		
+		JLabel StatisticsJl = new JLabel("Statistics");
+		StatisticsJl.setMaximumSize(new Dimension(189, 40));
+		StatisticsJl.setPreferredSize(new Dimension(189, 13));
+		StatisticsJl.setHorizontalAlignment(SwingConstants.CENTER);
+		StatisticsJl.setAlignmentX(Component.CENTER_ALIGNMENT);
+		StatisticsJl.setForeground(Color.lightGray);
+		StatisticsJl.setBackground(PressedLeftJLColor);
+		StatisticsJl.setHorizontalTextPosition(SwingConstants.CENTER);
+		StatisticsJl.setFont(new Font("Arial", Font.BOLD, 15));
+		StatisticsJl.setBorder(new EmptyBorder(10, 0, 10, 0));
+		StatisticsJl.setOpaque(true);
+		
+		StatisticsJl.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				settingJL.setBackground(leftJPColor);
+				StatisticsJl.setBackground(PressedLeftJLColor);
+				
+				frmFourcs.revalidate();
+				
+			}
+		});
+		
+		settingsPannel.add(StatisticsJl);
+		
+		
+		 settingJL = new JLabel("Settings");
+		 settingJL.setMaximumSize(new Dimension(189, 40));
+		 settingJL.setPreferredSize(new Dimension(189, 13));
+		 settingJL.setBounds(new Rectangle(0, 0, 189, 0));
 		settingJL.setAlignmentX(Component.CENTER_ALIGNMENT);
 		settingJL.setHorizontalTextPosition(SwingConstants.CENTER);
 		settingJL.setFont(new Font("Arial", Font.BOLD, 15));
 		settingJL.setHorizontalAlignment(SwingConstants.CENTER);
 		settingJL.setForeground(Color.lightGray);
 		settingJL.setBorder(new EmptyBorder(10, 0, 10, 0) );
+		settingJL.setBackground(new Color(0,0,0,0));
+		settingJL.setOpaque(true);
 		settingsPannel.setLayout(new BoxLayout(settingsPannel, BoxLayout.Y_AXIS));
 
 		SettingsPanel settingsPanel = new SettingsPanel(thisView);
@@ -131,7 +198,9 @@ public class View implements SettingsListener{
 			{
 
 				settingsPanel.setVisible(true);
-				settingJL.setForeground(Color.white);
+			
+				settingJL.setBackground(PressedLeftJLColor);
+				StatisticsJl.setBackground(leftJPColor);
 				
 				frmFourcs.revalidate();
 				
@@ -144,14 +213,7 @@ public class View implements SettingsListener{
 
 		settingsPannel.add(settingJL);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblNewLabel.setForeground(Color.lightGray);
-		lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 15));
-		lblNewLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
-		settingsPannel.add(lblNewLabel);
+
 
 		JPanel upperJpannel = new JPanel();
 		upperJpannel.setBounds(187, 0, 833, 54);
