@@ -1,12 +1,10 @@
-package main.java.model;
+package main.java.view;
 
 import java.nio.file.Path;
 
-public interface ModelListener
+public interface ViewListener
 {
-
 	void ImageFoldierPathChanged(Path path);
-	
 	
 	
 

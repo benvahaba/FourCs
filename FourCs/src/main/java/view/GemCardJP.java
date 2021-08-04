@@ -63,11 +63,12 @@ public class GemCardJP extends JPanel {
 		averageColorLabel.add(avColorFinalLabel);
 		
 		JLabel avColorForDisplay = new JLabel("");
+		avColorForDisplay.setForeground(Color.RED);
 		avColorForDisplay.setPreferredSize(new Dimension(50, 20));
 		avColorForDisplay.setMaximumSize(new Dimension(50, 50));
 		avColorForDisplay.setMinimumSize(new Dimension(50, 0));
 		avColorForDisplay.setBounds(new Rectangle(0, 0, 50, 50));
-		avColorForDisplay.setBackground(i_ImageAvColor);
+		avColorForDisplay.setBackground(Color.RED);
 		averageColorLabel.add(avColorForDisplay);
 		
 		JPanel ImageNamePanel = new JPanel();
