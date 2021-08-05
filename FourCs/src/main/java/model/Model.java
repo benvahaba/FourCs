@@ -14,52 +14,56 @@ import net.sf.javaml.core.Dataset;
 
 
 
-//white avarage 157.5   155.625   157.375  
+//white average 157.5   155.625   157.375  
 
 
 public class Model implements ImageListener, MLThreadListener {
-	private ModelListener controllerListener;
+	private ModelListener modelListener;
 	private LocalStorageManipulation storageManipulation;
 	private ImageFoldierListener imageFoldierListener;
 	
 	
-	//temps
 
+	public Model() {
 	
-	//temps end
-
-
-
-	public Model(ModelListener modelListener) {
-		controllerListener = modelListener;
 		try {
 			storageManipulation = new LocalStorageManipulation();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		if (storageManipulation.checkIfImagesLocalPathExists()) {
-			try {
-				imageFoldierListener = new ImageFoldierListener(this, storageManipulation.getImagesFolderPath());
-				imageFoldierListener.start();
-			} catch (FileNotFoundException e) {
-				// TODO notify controller "illegal path"
-				e.printStackTrace();
-			}
-
-		} else {
-			// TODO notify controller
-		}
-
 	}
+
+
+	public void AddModelListener(ModelListener i_ModelListener) {
+		modelListener=i_ModelListener;}
+
+	public boolean CheckIfImageFoldExists()
+	{
+		if (storageManipulation.checkIfImagesLocalPathExists())
+			return true;
+		return false;
+	}
+	public boolean StartListeningToFolder()
+	{
+		try {
+			imageFoldierListener = new ImageFoldierListener(this, storageManipulation.getImagesFolderPath());
+			imageFoldierListener.start();
+			return true;
+		} catch (FileNotFoundException e) {
+			// TODO notify controller "illegal path"
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 
 	public void ChangeImageDirPath(String i_Path) {
 		try {
 			storageManipulation.InsertNewImagesFolderPath(i_Path);
 			imageFoldierListener.InsertNewImageDirPathAndRun(i_Path);
 		} catch (IOException e) {
-			// TODO notify controller that the path is illegal
+			modelListener.ModelIllegalFolderPath();
 			e.printStackTrace();
 		}
 
@@ -84,14 +88,6 @@ public class Model implements ImageListener, MLThreadListener {
 	@Override
 	public void KmeansFinished(Dataset[] i_Clusters) 
 	{
-
-		
-		
-	
-
-
-		
-
 	}
 
 }

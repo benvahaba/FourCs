@@ -11,21 +11,57 @@ public class Controller implements ModelListener,ViewListener {
 
 	Model model;
 	View view;
+	private final String imageFolderErrorString="Invalid folder Path. choose a new one";
 	
 	public Controller(Model i_Model, View i_View)
 	{
 		model=i_Model;
-		view=i_View;
-		
-		
-		
+		view=i_View;	
 	}
 	
+
+
+	public void checkForValidImageFolderPath() {
+		if(model.CheckIfImageFoldExists())
+		{
+			if(!model.StartListeningToFolder())
+			{
+				model.ChangeImageDirPath(view.ChoosePicFolderPath(imageFolderErrorString).toString());
+				
+			}
+		}
+		else {
 	
+			model.ChangeImageDirPath(view.ChoosePicFolderPath(null).toString());
+		}
+		
+	}
+
+
 	@Override
-	public void ImageFoldierPathChanged(Path path) {
+	public void ViewImageFolderPathChanged(Path path) {
 		model.ChangeImageDirPath(path.toString());
 		
 	}
+
+
+	@Override
+	public void ModelIllegalFolderPath() {
+		view.ChoosePicFolderPath(imageFolderErrorString).toString();
+		
+	}
+
+
+
+
+
+	
+
+
+
+
+
+
+
 
 }

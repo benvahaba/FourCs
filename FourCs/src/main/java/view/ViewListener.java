@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public interface ViewListener
 {
-	void ImageFoldierPathChanged(Path path);
+	void ViewImageFolderPathChanged(Path path);
 	
 	
 

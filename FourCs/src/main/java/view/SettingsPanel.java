@@ -85,7 +85,7 @@ public class SettingsPanel extends JPanel {
 	               File file = fileChooser.getSelectedFile();
 	            
 	     
-	               settingsListener.imageFolderPathChanged(Path.of(file.getName()));
+	               settingsListener.imageFolderPathChanged(Path.of(file.getAbsolutePath()));
 
 			}
 		}});
