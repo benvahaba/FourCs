@@ -16,7 +16,7 @@ public class ViewTests
 		
 		View view = new View();
 		view.run();
-		System.out.println(view.ChoosePicFolderPath(null));
+
 		while(true);
 	
 		

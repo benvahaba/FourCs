@@ -42,22 +42,20 @@ public class MLThread extends Thread {
 
 	@Override
 	public void run() {
-		while (work) {
 
 			try {
 				Dataset filteredDataset = calculateAveragesAndRemoveRedundant(
 						applyKmeans(creatingDataSet(), maxCentroidsInitial));
 
-				applySecondKmeans(filteredDataset);
+			
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			work = false;
 
-		}
+		
 
 	}
 

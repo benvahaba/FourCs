@@ -44,16 +44,15 @@ public class Model implements ImageListener, MLThreadListener {
 			return true;
 		return false;
 	}
-	public boolean StartListeningToFolder()
+	public void StartListeningToFolder()
 	{
 		try {
 			imageFoldierListener = new ImageFoldierListener(this, storageManipulation.getImagesFolderPath());
 			imageFoldierListener.start();
-			return true;
+	
 		} catch (FileNotFoundException e) {
-			// TODO notify controller "illegal path"
+			modelListener.ModelIllegalFolderPath();
 			e.printStackTrace();
-			return false;
 		}
 	}
 	
@@ -79,15 +78,22 @@ public class Model implements ImageListener, MLThreadListener {
 
 
 		} catch (IOException e) {
-			// TODO tell controller that the image.name is not supported
+			modelListener.ModelImageNameNotSupported(ImagePath);
 			e.printStackTrace();
 		}
 
 	}
-
+	@Override
+	public void ClusteringError(Path imagePath) {
+		modelListener.ModelClusteringError(imagePath);
+		
+	}
 	@Override
 	public void KmeansFinished(Dataset[] i_Clusters) 
 	{
 	}
+
+
+
 
 }

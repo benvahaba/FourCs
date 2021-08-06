@@ -6,6 +6,8 @@ public interface ModelListener
 {
 
 	void ModelIllegalFolderPath();
+	 void ModelClusteringError(Path imagePath);
+	 void ModelImageNameNotSupported(Path imagePath);
 	
 	
 	

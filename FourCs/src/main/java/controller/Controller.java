@@ -17,18 +17,19 @@ public class Controller implements ModelListener,ViewListener {
 	{
 		model=i_Model;
 		view=i_View;	
+		view.addViewListener(this);
+		model.AddModelListener(this);
+		checkForValidImageFolderPath();
+		
 	}
 	
 
 
-	public void checkForValidImageFolderPath() {
+	private void checkForValidImageFolderPath() {
 		if(model.CheckIfImageFoldExists())
 		{
-			if(!model.StartListeningToFolder())
-			{
-				model.ChangeImageDirPath(view.ChoosePicFolderPath(imageFolderErrorString).toString());
-				
-			}
+			model.StartListeningToFolder();
+
 		}
 		else {
 	
@@ -47,7 +48,23 @@ public class Controller implements ModelListener,ViewListener {
 
 	@Override
 	public void ModelIllegalFolderPath() {
-		view.ChoosePicFolderPath(imageFolderErrorString).toString();
+		view.ChoosePicFolderPath(imageFolderErrorString);
+		
+	}
+
+
+
+	@Override
+	public void ModelClusteringError(Path imagePath) {
+		// TODO notify view
+		
+	}
+
+
+
+	@Override
+	public void ModelImageNameNotSupported(Path imagePath) {
+		// TODO notify view
 		
 	}
 
