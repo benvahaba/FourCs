@@ -2,6 +2,9 @@ package main.java.model.utils;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -20,6 +23,7 @@ public class MLThread extends Thread {
 	private BufferedImage image;
 	private boolean work = true;
 	private MLThreadListener listener;
+	private Path imagePath;
 	// white avarage 157.5 155.625 157.375
 
 	///// temps. delete later
@@ -29,30 +33,38 @@ public class MLThread extends Thread {
 
 	private final int maxCentroidsInitial = 4, maxCentroidsAfterFiltered = 2, iterations = 100;
 
-	/**
-	 * @param i_image
-	 * @param i_Listener
-	 */
-	public MLThread(BufferedImage i_image, MLThreadListener i_Listener) {
+	public MLThread(BufferedImage i_image, MLThreadListener i_Listener,Path i_ImagePath) {
 		image = i_image;
 		setDaemon(true);
 		listener = i_Listener;
+		imagePath=i_ImagePath;
 
 	}
 
 	@Override
 	public void run() {
 
+		Dataset filteredDataset=null;
+		   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+		   LocalDateTime now = LocalDateTime.now();  
+		   Color averageColor;
+		
 			try {
-				Dataset filteredDataset = calculateAveragesAndRemoveRedundant(
+				 filteredDataset = calculateAveragesAndRemoveRedundant(
 						applyKmeans(creatingDataSet(), maxCentroidsInitial));
 
 			
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				listener.ClusteringError(imagePath);
 				e.printStackTrace();
 			}
+			averageColor=averageCalculation( filteredDataset);
+			
+			//TODO add percentage of filth
+			
+			listener.KmeansFinished(filteredDataset,averageColor,now);
+			
 
 
 		

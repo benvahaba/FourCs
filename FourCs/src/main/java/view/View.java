@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +23,9 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import net.sf.javaml.core.Dataset;
+
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -75,14 +79,14 @@ public class View implements Runnable, SettingsListener {
 		left_options_Panel.setBackground(leftJPColor);
 		mainPanel.add(left_options_Panel);
 
-		JPanel settingsPannel = new JPanel();
-		settingsPannel.setPreferredSize(new Dimension(189, 740));
-		settingsPannel.setBounds(new Rectangle(0, 0, 189, 0));
-		settingsPannel.setAutoscrolls(true);
-		settingsPannel.setBorder(new EmptyBorder(25, 0, 0, 0));
-		settingsPannel.setBounds(10, 38, 160, 240);
-		settingsPannel.setBackground(new Color(0, 0, 0, 0));
-		left_options_Panel.add(settingsPannel);
+		JPanel settingsLeftPannel = new JPanel();
+		settingsLeftPannel.setPreferredSize(new Dimension(189, 740));
+		settingsLeftPannel.setBounds(new Rectangle(0, 0, 189, 0));
+		settingsLeftPannel.setAutoscrolls(true);
+		settingsLeftPannel.setBorder(new EmptyBorder(25, 0, 0, 0));
+		settingsLeftPannel.setBounds(10, 38, 160, 240);
+		settingsLeftPannel.setBackground(new Color(0, 0, 0, 0));
+		left_options_Panel.add(settingsLeftPannel);
 
 		JLabel StatisticsJl = new JLabel("Statistics");
 		StatisticsJl.setMaximumSize(new Dimension(189, 40));
@@ -133,7 +137,7 @@ public class View implements Runnable, SettingsListener {
 			}
 		});
 
-		settingsPannel.add(StatisticsJl);
+		settingsLeftPannel.add(StatisticsJl);
 
 		settingJL = new JLabel("Settings");
 		settingJL.setMaximumSize(new Dimension(189, 40));
@@ -147,51 +151,14 @@ public class View implements Runnable, SettingsListener {
 		settingJL.setBorder(new EmptyBorder(10, 0, 10, 0));
 		settingJL.setBackground(new Color(0, 0, 0, 0));
 		settingJL.setOpaque(true);
-		settingsPannel.setLayout(new BoxLayout(settingsPannel, BoxLayout.Y_AXIS));
+		settingsLeftPannel.setLayout(new BoxLayout(settingsLeftPannel, BoxLayout.Y_AXIS));
 
-		SettingsPanel settingsPanel = new SettingsPanel(this);
-		settingsPanel.setVisible(false);
+		SettingsPanel settingsInnerPanel = new SettingsPanel(this);
 
-		settingJL.addMouseListener(new MouseListener() {
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
-			}
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				settingsPanel.setVisible(true);
-
-				settingJL.setBackground(PressedLeftJLColor);
-				StatisticsJl.setBackground(leftJPColor);
-
-				frmFourcs.revalidate();
-
-			}
-		});
-
-		settingsPannel.add(settingJL);
+		settingsLeftPannel.add(settingJL);
 
 		JPanel upperJpannel = new JPanel();
 		upperJpannel.setBounds(187, 0, 833, 54);
@@ -205,13 +172,110 @@ public class View implements Runnable, SettingsListener {
 		timeAndDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		upperJpannel.add(timeAndDateLabel, BorderLayout.EAST);
+		
+		
+		
+		CardStackPane cardStackPane = new CardStackPane();
+		
+
 
 		innerMainPanel = new JPanel();
 		innerMainPanel.setBounds(187, 54, 833, 686);
-		mainPanel.add(innerMainPanel);
-		innerMainPanel.setLayout(new BorderLayout(0, 0));
+	
+		CardLayout innerPannelCardLayout = new CardLayout(0,0);
+		innerMainPanel.setLayout(innerPannelCardLayout);
 
-		innerMainPanel.add(settingsPanel, BorderLayout.CENTER);
+		innerMainPanel.add(settingsInnerPanel,"settings");
+		innerMainPanel.add(cardStackPane,"statistics");
+		innerPannelCardLayout.show(innerMainPanel, "statistics");
+		
+		mainPanel.add(innerMainPanel);
+
+		
+		MouseListener settingsMouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+		
+				settingJL.setBackground(PressedLeftJLColor);
+				StatisticsJl.setBackground(leftJPColor);
+
+				innerPannelCardLayout.show(innerMainPanel, "settings");
+				
+				frmFourcs.revalidate();
+				
+			}
+		};
+		settingJL.addMouseListener(settingsMouseListener);
+		
+		
+		MouseListener statisticsMouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				StatisticsJl.setBackground(PressedLeftJLColor);
+				settingJL.setBackground(leftJPColor);
+
+				innerPannelCardLayout.show(innerMainPanel, "statistics");
+				
+				frmFourcs.revalidate();
+				
+			}
+		};
+		StatisticsJl.addMouseListener(statisticsMouseListener);
+		
+		
+		
+		
+		
 		frmFourcs.setVisible(true);
 	}
 
@@ -240,5 +304,13 @@ public class View implements Runnable, SettingsListener {
 		File file = fileChooser.getSelectedFile();
 		return Path.of(file.getAbsolutePath());
 	}
+	
+	public void NewGemInserted(Dataset i_Cluster,Color i_AverageColor,LocalDateTime i_TimeStamp)
+	{
+		GemCardJP gemCardJP = new GemCardJP(null, null, i_AverageColor, null)
+		
+	}
+
+
 
 }

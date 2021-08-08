@@ -1,11 +1,14 @@
 package main.java.controller;
 
+import java.awt.Color;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 import main.java.model.Model;
 import main.java.model.ModelListener;
 import main.java.view.View;
 import main.java.view.ViewListener;
+import net.sf.javaml.core.Dataset;
 
 public class Controller implements ModelListener,ViewListener {
 
@@ -65,6 +68,15 @@ public class Controller implements ModelListener,ViewListener {
 	@Override
 	public void ModelImageNameNotSupported(Path imagePath) {
 		// TODO notify view
+		
+	}
+
+
+
+	@Override
+	public void ModelDataFromPicture(Dataset i_Cluster, Color i_AverageColor, LocalDateTime i_TimeStamp) {
+		// TODO Auto-generated method stub
+		System.out.println("delete me");
 		
 	}
 

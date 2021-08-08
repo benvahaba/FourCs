@@ -14,10 +14,7 @@ public class OverAllTest
 	View view = new View();
 	Model model = new Model();
 	Controller controller = new Controller(model, view);
-	view.addViewListener(controller);
-	model.AddModelListener(controller);
 	view.run();
-	controller.checkForValidImageFolderPath();
 	while (true) {}
 	
 	}
