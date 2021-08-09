@@ -92,6 +92,16 @@ public class GemCardJP extends JPanel {
 		JLabel timeLabel = new JLabel("");
 		timeLabel.setText(i_timestamp.toString());
 		timePanel.add(timeLabel);
+		
+		JPanel imperfectionPanel = new JPanel();
+		imperfectionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		infoPanel.add(imperfectionPanel);
+		
+		JLabel imperfectionFinalLabel = new JLabel("Imperfection percentage");
+		imperfectionPanel.add(imperfectionFinalLabel);
+		
+		JLabel imperfectionLabel = new JLabel("");
+		imperfectionPanel.add(imperfectionLabel);
 
 	}
 }

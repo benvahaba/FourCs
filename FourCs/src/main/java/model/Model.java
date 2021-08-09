@@ -1,9 +1,12 @@
 package main.java.model;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+
 import main.java.model.utils.ImageFoldierListener;
 import main.java.model.utils.ImageListener;
 import main.java.model.utils.ImageManipulation;
@@ -44,16 +47,15 @@ public class Model implements ImageListener, MLThreadListener {
 			return true;
 		return false;
 	}
-	public boolean StartListeningToFolder()
+	public void StartListeningToFolder()
 	{
 		try {
 			imageFoldierListener = new ImageFoldierListener(this, storageManipulation.getImagesFolderPath());
 			imageFoldierListener.start();
-			return true;
+	
 		} catch (FileNotFoundException e) {
-			// TODO notify controller "illegal path"
+			modelListener.ModelIllegalFolderPath();
 			e.printStackTrace();
-			return false;
 		}
 	}
 	
@@ -73,21 +75,32 @@ public class Model implements ImageListener, MLThreadListener {
 	public void NewImageInserted(Path ImagePath) {
 		try {
 				BufferedImage image = ImageManipulation.getImage(ImagePath);
-				MLThread ml = new MLThread(image, this);
+				MLThread ml = new MLThread(image, this,ImagePath);
 				ml.start();
 				
 
 
 		} catch (IOException e) {
-			// TODO tell controller that the image.name is not supported
+			modelListener.ModelImageNameNotSupported(ImagePath);
 			e.printStackTrace();
 		}
 
 	}
+	@Override
+	public void ClusteringError(Path imagePath) {
+		modelListener.ModelClusteringError(imagePath);
+		
+	}
+
 
 	@Override
-	public void KmeansFinished(Dataset[] i_Clusters) 
-	{
+	public void KmeansFinished(Dataset i_Cluster, Color i_AverageColor, LocalDateTime i_TimeStamp) {
+		modelListener.ModelDataFromPicture(i_Cluster, i_AverageColor, i_TimeStamp);
+		
 	}
+
+
+
+
 
 }

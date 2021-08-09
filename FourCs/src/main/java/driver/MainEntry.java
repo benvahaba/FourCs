@@ -11,10 +11,7 @@ public class MainEntry {
 		View view = new View();
 		Model model = new Model();
 		Controller controller = new Controller(model, view);
-		view.addViewListener(controller);
-		model.AddModelListener(controller);
-		controller.checkForValidImageFolderPath();
-		
+
 
 	}
 
