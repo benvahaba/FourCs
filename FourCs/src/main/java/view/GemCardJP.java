@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
-import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
@@ -16,31 +16,42 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import java.awt.Image;
 
 public class GemCardJP extends JPanel {
 
+	private Dimension cardDimension = new Dimension(833, 260);
 	
 
 	
 	public GemCardJP(BufferedImage i_image, Path i_ImagePath, Color i_ImageAvColor,LocalDateTime i_timestamp) {
-		setBounds(new Rectangle(0, 0, 833, 300));
-		setLayout(null);
 		
+		setPreferredSize(cardDimension);
+		setMaximumSize(cardDimension);
+
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 		JLabel pictureLabel = new JLabel("");
+		pictureLabel.setLocation(10, 10);
 		pictureLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		pictureLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pictureLabel.setPreferredSize(new Dimension(640, 480));
-		pictureLabel.setMinimumSize(new Dimension(640, 480));
-		pictureLabel.setMaximumSize(new Dimension(640, 480));
-		pictureLabel.setBounds(new Rectangle(0, 0, 640, 480));
-		pictureLabel.setBorder(new EmptyBorder(15, 15, 15, 0));
-		pictureLabel.setBounds(30, 30, 320, 240);
-		pictureLabel.setIcon(new ImageIcon(i_image));
+		pictureLabel.setSize(new Dimension(320, 240));
+		pictureLabel.setPreferredSize(new Dimension(320, 240));
+
+
+		pictureLabel.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+		Image dimg = i_image.getScaledInstance(pictureLabel.getWidth(), pictureLabel.getHeight(),
+		        Image.SCALE_SMOOTH);
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		pictureLabel.setIcon(new ImageIcon(dimg));
+	
 		add(pictureLabel);
 		
 		JPanel infoPanel = new JPanel();
-		infoPanel.setMaximumSize(new Dimension(640, 480));
-		infoPanel.setBounds(394, 30, 405, 240);
+
+		infoPanel.setBounds(225, 0, 225, 0);
+
 		add(infoPanel);
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		
@@ -53,7 +64,8 @@ public class GemCardJP extends JPanel {
 		categoryPanel.add(categoryFinalLabel);
 		
 		JLabel categoryLabelForDisplay = new JLabel("");
-		categoryLabelForDisplay.setText(i_ImagePath.toString());
+		//TODO implement category
+		categoryLabelForDisplay.setText("needs to be impelemted");
 		categoryPanel.add(categoryLabelForDisplay);
 		
 		JPanel averageColorLabel = new JPanel();
@@ -80,7 +92,7 @@ public class GemCardJP extends JPanel {
 		ImageNamePanel.add(PictureNameFinalLabel);
 		
 		JLabel picNameForDisplayLabel = new JLabel("");
-		picNameForDisplayLabel.setText(i_ImagePath.toString());
+		picNameForDisplayLabel.setText(i_ImagePath.getFileName().toString());
 		ImageNamePanel.add(picNameForDisplayLabel);
 		
 		JPanel timePanel = new JPanel();
@@ -91,7 +103,9 @@ public class GemCardJP extends JPanel {
 		timePanel.add(timeFinalLabel);
 		
 		JLabel timeLabel = new JLabel("");
-		timeLabel.setText(i_timestamp.toString());
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		timeLabel.setText(i_timestamp.format(dateTimeFormatter));
 		timePanel.add(timeLabel);
 		
 		JPanel imperfectionPanel = new JPanel();

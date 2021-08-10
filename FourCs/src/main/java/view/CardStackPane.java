@@ -2,15 +2,12 @@ package main.java.view;
 
 import javax.swing.JPanel;
 
-import java.awt.Button;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.ScrollPane;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 
 public class CardStackPane extends JPanel {
@@ -28,22 +25,38 @@ public class CardStackPane extends JPanel {
 	
 		
 		 innerJPanel = new JPanel();
-		 innerJPanel.setLayout(new BoxLayout(innerJPanel, BoxLayout.Y_AXIS));
-		// Component cntrlComponent = new Componen
+
+
 
 		
 		JScrollPane scrollPane = new JScrollPane(innerJPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		//,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER)
-	
-		add(scrollPane);
-		revalidate();
+		 innerJPanel.setLayout(new GridLayout(0, 1));
+		 setPreferredSize(new Dimension(800, 200));
+		 
+		getParent().add(scrollPane);
+			for(int i = 0 ; i<40;i++)
+			{
+				JButton button = new JButton();
+				innerJPanel.add(button);
+				
+			}
 
+	
 	}
 	public void AddNewCard(GemCardJP gemCardJP)
 	{
 		//innerJPanel.add(gemCardJP,0);
+		
+		
+		for(int i = 0 ; i<40;i++)
+		{
+			JButton button = new JButton();
+			innerJPanel.add(button);
+			
+		}
+	
 
-		revalidate();
+
 		
 		
 		

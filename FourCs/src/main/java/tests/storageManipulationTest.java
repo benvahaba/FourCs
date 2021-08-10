@@ -4,9 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-import main.java.controller.Controller;
-import main.java.model.Model;
-import main.java.model.utils.ImageFoldierListener;
 import main.java.model.utils.LocalStorageManipulation;
 
 class storageManipulationTest {

@@ -9,7 +9,6 @@ import main.java.model.Model;
 import main.java.model.ModelListener;
 import main.java.view.View;
 import main.java.view.ViewListener;
-import net.sf.javaml.core.Dataset;
 
 public class Controller implements ModelListener,ViewListener {
 

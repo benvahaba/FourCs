@@ -5,23 +5,15 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import net.sf.javaml.clustering.Clusterer;
 import net.sf.javaml.clustering.KMeans;
 import net.sf.javaml.core.Dataset;
 import net.sf.javaml.core.DefaultDataset;
 import net.sf.javaml.core.DenseInstance;
 import net.sf.javaml.core.Instance;
-import net.sf.javaml.tools.data.FileHandler;
-import net.sf.javaml.tools.weka.WekaClusterer;
-import weka.clusterers.XMeans;
-import weka.core.parser.java_cup.internal_error;
 
 public class MLThread extends Thread {
 	private BufferedImage image;
-	private boolean work = true;
 	private MLThreadListener listener;
 	private Path imagePath;
 	// white avarage 157.5 155.625 157.375
@@ -235,8 +227,5 @@ public class MLThread extends Thread {
 		
 	}
 
-	public void Stop() {
-		work = false;
-	}
 
 }
