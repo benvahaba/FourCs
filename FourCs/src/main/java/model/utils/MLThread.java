@@ -63,7 +63,7 @@ public class MLThread extends Thread {
 			
 			//TODO add percentage of filth
 			
-			listener.KmeansFinished(filteredDataset,averageColor,now);
+			listener.KmeansFinished(image,imagePath,averageColor,now);
 			
 
 

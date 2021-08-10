@@ -94,8 +94,8 @@ public class Model implements ImageListener, MLThreadListener {
 
 
 	@Override
-	public void KmeansFinished(Dataset i_Cluster, Color i_AverageColor, LocalDateTime i_TimeStamp) {
-		modelListener.ModelDataFromPicture(i_Cluster, i_AverageColor, i_TimeStamp);
+	public void KmeansFinished(BufferedImage i_image,Path imagePath, Color i_AverageColor, LocalDateTime i_TimeStamp) {
+		modelListener.ModelDataFromPicture(i_image,imagePath, i_AverageColor, i_TimeStamp);
 		
 	}
 

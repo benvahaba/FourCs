@@ -61,33 +61,33 @@ class storageManipulationTest {
 	@Test
 	void FoldierEvents()
 	{
-		String path="C:\\Users\\ben's home\\Desktop\\FourCsTempImageFolder";
-		LocalStorageManipulation localStorageManipulation = null;
-		
-		try {
-			localStorageManipulation = new LocalStorageManipulation();
-			localStorageManipulation.InsertNewImagesFolderPath(path);
-			Controller controller = new Controller();
-			ImageFoldierListener imageFoldierListener = new ImageFoldierListener(new Model(controller),path);
-			imageFoldierListener.run();
-		
-			
-		
-		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+//		String path="C:\\Users\\ben's home\\Desktop\\FourCsTempImageFolder";
+//		LocalStorageManipulation localStorageManipulation = null;
+//		
+//		try {
+//			localStorageManipulation = new LocalStorageManipulation();
+//			localStorageManipulation.InsertNewImagesFolderPath(path);
+//			Controller controller = new Controller();
+//			ImageFoldierListener imageFoldierListener = new ImageFoldierListener(new Model(controller),path);
+//			imageFoldierListener.run();
+//		
+//			
+//		
+//		
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}		
 	}
 	@Test
 	void BiggerTestWithEmptyController()
 	{
-		Controller controller = new Controller();
-		Model model = new Model(controller);
-		while(true)
-		{
-			
-		}
+//		Controller controller = new Controller();
+//		Model model = new Model(controller);
+//		while(true)
+//		{
+//			
+//		}
 	}
 
 }

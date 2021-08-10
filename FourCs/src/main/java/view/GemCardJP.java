@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
@@ -21,7 +22,7 @@ public class GemCardJP extends JPanel {
 	
 
 	
-	public GemCardJP(BufferedImage i_image, Path i_ImagePath, Color i_ImageAvColor,Timestamp i_timestamp) {
+	public GemCardJP(BufferedImage i_image, Path i_ImagePath, Color i_ImageAvColor,LocalDateTime i_timestamp) {
 		setBounds(new Rectangle(0, 0, 833, 300));
 		setLayout(null);
 		

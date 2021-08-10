@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -43,6 +44,7 @@ public class View implements Runnable, SettingsListener {
 	private final Color PressedLeftJLColor = new Color(0, 117, 64);
 	private final Color leftJPColor = new Color(1, 58, 32);
 	private ViewListener viewListener;
+	private CardStackPane cardStackPane;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -100,42 +102,6 @@ public class View implements Runnable, SettingsListener {
 		StatisticsJl.setBorder(new EmptyBorder(10, 0, 10, 0));
 		StatisticsJl.setOpaque(true);
 
-		StatisticsJl.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				settingJL.setBackground(leftJPColor);
-				StatisticsJl.setBackground(PressedLeftJLColor);
-
-				frmFourcs.revalidate();
-
-			}
-		});
 
 		settingsLeftPannel.add(StatisticsJl);
 
@@ -175,12 +141,13 @@ public class View implements Runnable, SettingsListener {
 		
 		
 		
-		CardStackPane cardStackPane = new CardStackPane();
+		 cardStackPane = new CardStackPane();
 		
 
 
 		innerMainPanel = new JPanel();
 		innerMainPanel.setBounds(187, 54, 833, 686);
+		cardStackPane.setSize(innerMainPanel.getSize());
 	
 		CardLayout innerPannelCardLayout = new CardLayout(0,0);
 		innerMainPanel.setLayout(innerPannelCardLayout);
@@ -305,9 +272,11 @@ public class View implements Runnable, SettingsListener {
 		return Path.of(file.getAbsolutePath());
 	}
 	
-	public void NewGemInserted(Dataset i_Cluster,Color i_AverageColor,LocalDateTime i_TimeStamp)
+	public void NewGemInserted(BufferedImage i_Image,Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp)
 	{
-		GemCardJP gemCardJP = new GemCardJP(null, null, i_AverageColor, null)
+		GemCardJP gemCardJP = new GemCardJP(i_Image, i_ImagePath, i_AverageColor, i_TimeStamp);
+		cardStackPane.AddNewCard(gemCardJP);
+		cardStackPane.validate();
 		
 	}
 

@@ -1,6 +1,7 @@
 package main.java.controller;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
@@ -74,9 +75,8 @@ public class Controller implements ModelListener,ViewListener {
 
 
 	@Override
-	public void ModelDataFromPicture(Dataset i_Cluster, Color i_AverageColor, LocalDateTime i_TimeStamp) {
-		// TODO Auto-generated method stub
-		System.out.println("delete me");
+	public void ModelDataFromPicture(BufferedImage i_Image,Path i_ImagePath, Color i_AverageColor, LocalDateTime i_TimeStamp) {
+		view.NewGemInserted(i_Image,i_ImagePath, i_AverageColor, i_TimeStamp);
 		
 	}
 
