@@ -12,7 +12,7 @@ public interface ModelListener
 	 void ModelClusteringError(Path imagePath);
 	 void ModelImageNameNotSupported(Path imagePath);
 	 
-	 void ModelDataFromPicture(BufferedImage i_image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp);
+	 void ModelDataFromPicture(String i_Category, BufferedImage i_image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp, Double i_Imperfection);
 	
 	
 	

@@ -74,8 +74,8 @@ public class Controller implements ModelListener,ViewListener {
 
 
 	@Override
-	public void ModelDataFromPicture(BufferedImage i_Image,Path i_ImagePath, Color i_AverageColor, LocalDateTime i_TimeStamp) {
-		view.NewGemInserted(i_Image,i_ImagePath, i_AverageColor, i_TimeStamp);
+	public void ModelDataFromPicture(String i_Category, BufferedImage i_Image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp, Double i_Imperfection) {
+		view.NewGemInserted(i_Category,i_Image,i_ImagePath, i_AverageColor, i_TimeStamp,i_Imperfection);
 		
 	}
 

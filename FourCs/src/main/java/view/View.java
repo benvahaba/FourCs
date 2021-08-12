@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -128,7 +129,7 @@ public class View implements Runnable, SettingsListener {
 		settingsLeftPannel.add(settingJL);
 
 		JPanel upperJpannel = new JPanel();
-		upperJpannel.setBounds(187, 0, 833, 54);
+		upperJpannel.setBounds(189, 0, 833, 54);
 		upperJpannel.setBackground(new Color(83, 176, 133));
 
 		mainPanel.add(upperJpannel);
@@ -148,7 +149,7 @@ public class View implements Runnable, SettingsListener {
 		
 
 		innerMainPanel = new JPanel();
-		innerMainPanel.setBounds(187, 54, 830, 686);
+		innerMainPanel.setBounds(189, 54, 830, 686);
 
 		CardLayout innerPannelCardLayout = new CardLayout(0, 0);
 		innerMainPanel.setLayout(innerPannelCardLayout);
@@ -265,13 +266,29 @@ public class View implements Runnable, SettingsListener {
 		return Path.of(file.getAbsolutePath());
 	}
 
-	public void NewGemInserted(BufferedImage i_Image, Path i_ImagePath, Color i_AverageColor,
-			LocalDateTime i_TimeStamp) {
-		GemCardJP gemCardJP = new GemCardJP(i_Image, i_ImagePath, i_AverageColor, i_TimeStamp);
+	public void NewGemInserted(String i_Category, BufferedImage i_Image, Path i_ImagePath, Color i_AverageColor,
+			LocalDateTime i_TimeStamp, Double i_Imperfection) {
+		GemCardJP gemCardJP = new GemCardJP(i_Category,i_Image, i_ImagePath, i_AverageColor, i_TimeStamp,i_Imperfection);
 		cardStackPane.add(gemCardJP,0);
 
 		innerMainPanel.validate();
 
 	}
+	public void DisplayErrorMessage(String i_ErrorMessage,Path i_ImagePath)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(i_ErrorMessage);
+		if(i_ImagePath!=null)
+		{
+			sb.append(""
+					+ "Image name:"+i_ImagePath.toAbsolutePath());
+			
+		}
+		
+	          JOptionPane.showMessageDialog(frmFourcs,sb, "Ops", JOptionPane.ERROR_MESSAGE);
+	        
+	}
+	
+	
 
 }

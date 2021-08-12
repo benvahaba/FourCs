@@ -25,7 +25,7 @@ public class GemCardJP extends JPanel {
 	
 
 	
-	public GemCardJP(BufferedImage i_image, Path i_ImagePath, Color i_ImageAvColor,LocalDateTime i_timestamp) {
+	public GemCardJP(String i_Category, BufferedImage i_image, Path i_ImagePath, Color i_ImageAvColor,LocalDateTime i_timestamp, Double i_Imperfection) {
 		
 		setPreferredSize(cardDimension);
 		setMaximumSize(cardDimension);
@@ -64,8 +64,8 @@ public class GemCardJP extends JPanel {
 		categoryPanel.add(categoryFinalLabel);
 		
 		JLabel categoryLabelForDisplay = new JLabel("");
-		//TODO implement category
-		categoryLabelForDisplay.setText("needs to be impelemted");
+	
+		categoryLabelForDisplay.setText(i_Category);
 		categoryPanel.add(categoryLabelForDisplay);
 		
 		JPanel averageColorLabel = new JPanel();
@@ -116,6 +116,7 @@ public class GemCardJP extends JPanel {
 		imperfectionPanel.add(imperfectionFinalLabel);
 		
 		JLabel imperfectionLabel = new JLabel("");
+		imperfectionLabel.setText(i_Imperfection.toString());
 		imperfectionPanel.add(imperfectionLabel);
 
 	}

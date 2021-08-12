@@ -9,7 +9,7 @@ import net.sf.javaml.core.Dataset;
 
 public interface MLThreadListener
 {
-	void KmeansFinished(BufferedImage i_Image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp);
+	void KmeansFinished(String i_Category,BufferedImage i_Image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp, Double i_Imperfection);
 	void ClusteringError(Path imagePath);
 
 	

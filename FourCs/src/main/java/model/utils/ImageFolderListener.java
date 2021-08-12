@@ -11,12 +11,12 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ImageFoldierListener extends Thread {
+public class ImageFolderListener extends Thread {
 	private String PATH;
 	private boolean threadRunning = false;
 	private ImageListener imageListener;
 
-	public ImageFoldierListener(ImageListener i_imageListener,String i_Path) {
+	public ImageFolderListener(ImageListener i_imageListener,String i_Path) {
 		PATH = i_Path;
 		imageListener = i_imageListener;
 		setDaemon(true);

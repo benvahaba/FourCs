@@ -53,9 +53,9 @@ public class MLThread extends Thread {
 			}
 			averageColor=averageCalculation( filteredDataset);
 			
-			//TODO add percentage of filth
+			//TODO add category and percentage of filth
 			
-			listener.KmeansFinished(image,imagePath,averageColor,now);
+			listener.KmeansFinished(null,image,imagePath,averageColor,now,null);
 			
 
 

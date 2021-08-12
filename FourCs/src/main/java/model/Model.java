@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 
-import main.java.model.utils.ImageFoldierListener;
+import main.java.model.utils.ImageFolderListener;
 import main.java.model.utils.ImageListener;
 import main.java.model.utils.ImageManipulation;
 import main.java.model.utils.LocalStorageManipulation;
@@ -22,7 +22,7 @@ import main.java.model.utils.MLThreadListener;
 public class Model implements ImageListener, MLThreadListener {
 	private ModelListener modelListener;
 	private LocalStorageManipulation storageManipulation;
-	private ImageFoldierListener imageFoldierListener;
+	private ImageFolderListener imageFoldierListener;
 	
 	
 
@@ -49,7 +49,7 @@ public class Model implements ImageListener, MLThreadListener {
 	public void StartListeningToFolder()
 	{
 		try {
-			imageFoldierListener = new ImageFoldierListener(this, storageManipulation.getImagesFolderPath());
+			imageFoldierListener = new ImageFolderListener(this, storageManipulation.getImagesFolderPath());
 			imageFoldierListener.start();
 	
 		} catch (FileNotFoundException e) {
@@ -93,8 +93,8 @@ public class Model implements ImageListener, MLThreadListener {
 
 
 	@Override
-	public void KmeansFinished(BufferedImage i_image,Path imagePath, Color i_AverageColor, LocalDateTime i_TimeStamp) {
-		modelListener.ModelDataFromPicture(i_image,imagePath, i_AverageColor, i_TimeStamp);
+	public void KmeansFinished(String i_Category,BufferedImage i_Image, Path i_ImagePath,Color i_AverageColor,LocalDateTime i_TimeStamp, Double i_Imperfection) {
+		modelListener.ModelDataFromPicture(i_Category,i_Image,i_ImagePath, i_AverageColor, i_TimeStamp,i_Imperfection);
 		
 	}
 
