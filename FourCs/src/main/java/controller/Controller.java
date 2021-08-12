@@ -59,7 +59,7 @@ public class Controller implements ModelListener,ViewListener {
 
 	@Override
 	public void ModelClusteringError(Path imagePath) {
-		// TODO notify view
+		view.DisplayErrorMessage("Clustering error. try to take another picture",imagePath);
 		
 	}
 
@@ -67,7 +67,7 @@ public class Controller implements ModelListener,ViewListener {
 
 	@Override
 	public void ModelImageNameNotSupported(Path imagePath) {
-		// TODO notify view
+		view.DisplayErrorMessage("Image name not supported. check your camera",imagePath);
 		
 	}
 
